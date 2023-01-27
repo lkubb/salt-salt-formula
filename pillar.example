@@ -1,0 +1,208 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+# yamllint disable rule:comments-indentation
+---
+salt:
+    # Settings for salt.api. Requires a master.
+  api:
+      # Manage a certificate. You will still need to
+      # ensure the paths are set in your netapi configuration.
+    cert:
+      ca_server: null
+      cert_key: /etc/salt/pki/api/netapi.key
+      cert_path: /etc/salt/pki/api/netapi.crt
+      cn: null
+      days_remaining: 3
+      days_valid: 7
+      intermediate: []
+      root: ''
+      signing_cert: null
+      signing_policy: null
+      signing_private_key: null
+      signing_private_key_passphrase: null
+
+    # Manage formulae. This is an alternative to the git fileserver
+    # and usually much faster. Automated updates are possible if the
+    # git server is a Salt minion, for example by making use of reactors.
+    # Target this to masters or standalone/masterless minions.
+  formulae:
+      # Settings for cloning repositories, per saltenv.
+    config:
+        # Default settings for all formulae, regardless of saltenv
+      default:
+          #  Default arguments to git.cloned/git.latest state
+        args:
+          parallel: true
+          # Formulae will be cloned into this directory. If specified
+          # relative, will be made relative to lookup:srv automatically.
+        basedir: formula
+          # Formulae will be cloned by appending /<name> to this URL by default
+        baseurl: https://github.com/saltstack-formulas
+          # Use git.latest instead of git.cloned, ensuring that updates are pulled
+        update: true
+
+      # Formula repositories to clone with salt.formulae, per saltenv.
+    present:
+      base: []
+
+    # Settings for salt.master
+  master:
+      # This configuraion will be serialized as a YAML file in
+      # <master_config_dir>/_managed.conf.
+      # Since TOFS does not merge files from different matches,
+      # this can come in handy to fine-tune some settings without
+      # repeating the whole configuration.
+    config: {}
+      # Remove files from the master configuration directory
+      # that are not found on the fileserver.
+    config_clean: false
+      # Remove the default configuration file (usually /etc/salt/master)
+    config_remove: false
+
+    # Settings for salt.minion
+  minion:
+      # This configuraion will be serialized as a YAML file in
+      # <minion_config_dir>/_managed.conf.
+      # Since TOFS does not merge files from different matches,
+      # this can come in handy to fine-tune some settings without
+      # repeating the whole configuration.
+    config: {}
+      # Remove files from the minion configuration directory
+      # that are not found on the fileserver.
+    config_clean: false
+      # Remove the default configuration file (usually /etc/salt/minion)
+    config_remove: false
+
+    # Manage pillars. This is an alternative to the git external pillar
+    # and should be much faster. Automated updates are possible if the
+    # git server is a Salt minion, for example by making use of reactors.
+    # Target this to masters or standalone/masterless minions.
+  pillars:
+      # Settings for cloning repositories, per saltenv.
+    config:
+        # Default settings for cloning pillar repositories, regardless
+        # of env
+      default:
+        args:
+          parallel: true
+        basedir: pillars
+        baseurl: null
+          # When a pillar cache is in use and you wish to clear it
+          # after changes to a pillar repository, set this to true.
+        clear_pillar_cache: false
+          # You can request minions to update their in-memory pillar
+          # data on changes of a cloned pillar repository.
+          # This should be a list of dicts, each dict containing
+          # `tgt` and `tgt_type`. If you specify a list item as a string,
+          # `tgt_type` defaults to `glob`. If there is only one glob target,
+          # you can skip the list and specify it as a plain string.
+        refresh_pillar: false
+        update: true
+
+      # Pillar repositories to clone with salt.pillars, per env.
+    present:
+      base: []
+
+    # Ensure python libraries are present in the Salt Python environment.
+    # Values can be simple names or a single-key mapping to state arguments.
+    # Whether the names/keys are passed to pip.installed or pkg.installed
+    # depends on if the minion is packaged as onedir (pip) or classic (pkg).
+    # You can force `pip.installed` by including `use_pip: true` in the
+    # state arguments.
+  python_libs: []
+
+    # Ensure python libs are absent from the Salt Python environment.
+    # Values can be simple names or a single-key mapping to state arguments.
+    # Whether the names/keys are passed to pip.removed or pkg.absent
+    # depends on if the minion is packaged as onedir (pip) or classic (pkg).
+    # You can force `pip.absent` by including `use_pip: true` in the
+    # state arguments.
+  python_libs_absent: []
+
+    # This is currently only relevant for FreeBSD, where the package
+    # names are {pyver}-salt-minion etc.
+  pyver: py39
+
+    # Choose which flavor of the official Salt repositories you wish
+    # to enable - `latest`, `major` or `minor`. The latter ones require
+    # at least the same specificity for `version` below.
+  repo: major
+
+    # Settings for salt.ssh
+  ssh:
+      # Manage the contents of the roster file
+    roster: {}
+
+    # Version to install. `latest` will follow the latest releases,
+    # 3005* will install versions in the 3005 channel etc.
+  version: 3005*
+
+  lookup:
+      # This is relevant for MacOS. This formula will pull the package
+      # installer from the official repository by default.
+    pkg_src:
+        # This is the URL of a JSON file that specifies meta information
+        # for all releases.
+      repo_json: https://repo.saltproject.io/salt/py3/macos/repo.json
+        # This is the format string used to render the package source
+        # and source hash (file.managed)
+      source: https://repo.saltproject.io/salt/py3/macos/salt-{version}-py3-{arch}.pkg
+      source_hash: https://repo.saltproject.io/salt/py3/macos/salt-{version}-py3-{arch}.pkg.SHA3_512
+        # For classic packages and pre v3005, specify the exact version in
+        # the settings above and use this:
+      # repo_json: ''
+      # source: https://repo.saltproject.io/osx/salt-{version}-py3-{arch}.pkg
+      # source_hash: https://repo.saltproject.io/osx/salt-{version}-py3-{arch}.pkg.sha256
+
+    config:
+      master: /etc/salt/master.d
+      minion: /etc/salt/minion.d
+      ssh: /etc/salt/roster
+    pip_pkg: python3-pip
+    pkg:
+      api: salt-api
+      cloud: salt-cloud
+      master: salt-master
+      minion: salt-minion
+      ssh: salt-ssh
+      syndic: salt-syndic
+    rootuser: root
+    service:
+      api: salt-api
+      master: salt-master
+      minion: salt-minion
+      syndic: salt-syndic
+    srv: /srv
+
+  tofs:
+      # The files_switch key serves as a selector for alternative
+      # directories under the formula files directory. See TOFS pattern
+      # doc for more info.
+      # Note: Any value not evaluated by `config.get` will be used literally.
+      # This can be used to set custom paths, as many levels deep as required.
+    files_switch:
+      - any/path/can/be/used/here
+      - id
+      - roles
+      - osfinger
+      - os
+      - os_family
+
+      # All aspects of path/file resolution are customisable using the options below.
+      # This is unnecessary in most cases; there are sensible defaults.
+      # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >
+      # I.e.: salt://salt/files/default
+      # path_prefix: template_alt
+      # dirs:
+      #   files: files_alt
+      #   default: default_alt
+      # The entries under `source_files` are prepended to the default source files
+      # given for the state
+    source_files:
+      salt-ssh roster is managed:
+        - roster_alt
+        - roster_alt.j2
+
+      # To override the default directory as a whole:
+    dirs:
+      default: default_alt

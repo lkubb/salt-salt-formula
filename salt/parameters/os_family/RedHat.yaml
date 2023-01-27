@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == RedHat.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg_manager: yum
+    repos:
+      latest:
+        name: saltstack
+        humanname: SaltStack latest Release Channel for RHEL/CentOS $releasever
+        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
+                  {{ grains.osmajorrelease }}/$basearch/latest"
+        skip_if_unavailable: true
+        priority: 10
+        gpgcheck: 1
+        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
+                 {{ grains.osmajorrelease }}/$basearch/latest/SALTSTACK-GPG-KEY\
+                 {{ "2" if grains.osmajorrelease >= 9 }}.pub"
+        enabled_metadata: 1
+      major:
+        name: saltstack-{major}
+        humanname: SaltStack {major} Release Channel for RHEL/CentOS $releasever
+        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
+                  {{ grains.osmajorrelease }}/$basearch/{major}"
+        skip_if_unavailable: true
+        priority: 10
+        gpgcheck: 1
+        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
+                 {{ grains.osmajorrelease }}/$basearch/{major}/SALTSTACK-GPG-KEY\
+                 {{ "2" if grains.osmajorrelease >= 9 }}.pub"
+        enabled_metadata: 1
+      minor:
+        name: saltstack-{major}.{minor}
+        humanname: SaltStack {major}.{minor} Release Channel for RHEL/CentOS $releasever
+        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
+                  {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}"
+        skip_if_unavailable: true
+        priority: 10
+        gpgcheck: 1
+        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
+                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/\
+                SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub"
+        enabled_metadata: 1
+...

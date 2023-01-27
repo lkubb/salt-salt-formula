@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == MacOS.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg_manager: brew
+    rootuser: {{ salt["cmd.run"]("stat -f '%Su' /dev/console") }}
+    rootgroup: {{ salt["cmd.run"]("stat -f '%Sg' /dev/console") }}
+    pkg_src:
+      repo_json: https://repo.saltproject.io/salt/py3/macos/repo.json
+      source: https://repo.saltproject.io/salt/py3/macos/salt-{version}-py3-{arch}.pkg
+      source_hash: https://repo.saltproject.io/salt/py3/macos/salt-{version}-py3-{arch}.pkg.SHA3_512
+    config:
+      master: /private/etc/salt/master.d
+      minion: /private/etc/salt/minion.d
+      ssh: /private/etc/salt/roster
+    service:
+      master: com.saltstack.salt.master
+      minion: com.saltstack.salt.minion
+    srv: /opt/srv
+...

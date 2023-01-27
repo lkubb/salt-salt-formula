@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
+values:
+  lookup:
+    repos:
+      latest:
+        humanname: SaltStack latest Release Channel for Amazon Linux
+        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
+                  {{ grains.osmajorrelease }}/$basearch/latest"
+        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
+                 {{ grains.osmajorrelease }}/$basearch/latest/\
+                 SALTSTACK-GPG-KEY.pub"
+      major:
+        humanname: SaltStack {major} Release Channel for Amazon Linux
+        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
+                  {{ grains.osmajorrelease }}/$basearch/{major}"
+        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
+                 {{ grains.osmajorrelease }}/$basearch/{major}/\
+                 SALTSTACK-GPG-KEY.pub"
+      minor:
+        humanname: SaltStack {major}.{minor} Release Channel for Amazon Linux
+        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
+                  {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}"
+        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
+                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/\
+                SALTSTACK-GPG-KEY.pub"
+...

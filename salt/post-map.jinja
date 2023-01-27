@@ -1,0 +1,12 @@
+{#- -*- coding: utf-8 -*- #}
+{#- vim: ft=jinja #}
+
+{%- if mapdata.version and mapdata.version != "latest" %}
+  {%- set parts = mapdata.version.strip("*").split(".") %}
+  {%- set major = parts.pop(0) %}
+  {%- set minor = none %}
+  {%- if parts %}
+    {%- set minor = parts.pop(0) %}
+  {%- endif %}
+  {%- do mapdata.update({"_major": major, "_minor": minor}) %}
+{%- endif %}

@@ -1,0 +1,66 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == Debian.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg_manager: apt
+    repos:
+      latest:
+        humanname: SaltStack latest onedir
+        name: >-
+          deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64]
+          https://repo.saltproject.io/salt/py3/debian/{{ grains.osmajorrelease }}/amd64/latest {{ grains.oscodename }} main
+        key_url: https://repo.saltproject.io/salt/py3/debian/{{ grains.osmajorrelease }}/amd64/latest/salt-archive-keyring.gpg
+        file: /etc/apt/sources.list.d/saltstack_latest.list
+        aptkey: false
+      major:
+        humanname: SaltStack major onedir
+        name: >-
+          deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64]
+          https://repo.saltproject.io/salt/py3/debian/{{ grains.osmajorrelease }}/amd64/{major} {{ grains.oscodename }} main
+        key_url: https://repo.saltproject.io/salt/py3/debian/{{ grains.osmajorrelease }}/amd64/{major}/salt-archive-keyring.gpg
+        file: /etc/apt/sources.list.d/saltstack_major.list
+        aptkey: false
+      minor:
+        humanname: SaltStack minor onedir
+        name: >-
+          deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64]
+          https://repo.saltproject.io/salt/py3/debian/{{ grains.osmajorrelease }}/amd64/minor/{major}.{minor} {{ grains.oscodename }} main
+        key_url: https://repo.saltproject.io/salt/py3/debian/{{ grains.osmajorrelease }}/amd64/minor/{major}.{minor}/salt-archive-keyring.gpg
+        file: /etc/apt/sources.list.d/saltstack_minor.list
+        aptkey: false
+      latest_classic:
+        humanname: SaltStack latest classic
+        name: >-
+          deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64]
+          https://repo.saltproject.io/py3/debian/{{ grains.osmajorrelease }}/amd64/latest {{ grains.oscodename }} main
+        key_url: https://repo.saltproject.io/py3/debian/{{ grains.osmajorrelease }}/amd64/latest/salt-archive-keyring.gpg
+        file: /etc/apt/sources.list.d/saltstack_latest_classic.list
+        aptkey: false
+      major_classic:
+        humanname: SaltStack major classic
+        name: >-
+          deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64]
+          https://repo.saltproject.io/py3/debian/{{ grains.osmajorrelease }}/amd64/{major} {{ grains.oscodename }} main
+        key_url: https://repo.saltproject.io/py3/debian/{{ grains.osmajorrelease }}/amd64/{major}/salt-archive-keyring.gpg
+        file: /etc/apt/sources.list.d/saltstack_major_classic.list
+        aptkey: false
+      minor_classic:
+        humanname: SaltStack minor classic
+        name: >-
+          deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64]
+          https://repo.saltproject.io/py3/debian/{{ grains.osmajorrelease }}/amd64/archive/{major}.{minor} {{ grains.oscodename }} main
+        key_url: https://repo.saltproject.io/py3/debian/{{ grains.osmajorrelease }}/amd64/archive/{major}.{minor}/salt-archive-keyring.gpg
+        file: /etc/apt/sources.list.d/saltstack_minor_classic.list
+        aptkey: false
+...

@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == FreeBSD.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg_manager: pkg
+    rootgroup: wheel
+    config:
+      master: /usr/local/etc/salt/master.d
+      minion: /usr/local/etc/salt/minion.d
+      ssh: /usr/local/etc/salt/roster
+    pkg:
+      api: '{pyver}-salt'
+      master: '{pyver}-salt'
+      minion: '{pyver}-salt'
+      ssh: '{pyver}-salt'
+      syndic: '{pyver}-salt'
+    service:
+      api: salt_api
+      master: salt_master
+      minion: salt_minion
+      syndic: salt_syndic
+...
