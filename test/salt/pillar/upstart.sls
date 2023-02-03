@@ -9,9 +9,6 @@ salt:
     added_in_lookup: lookup_value
     enablerepo:
       stable: true
-    config: '/etc/salt'
-    service:
-      name: salt-minion
     config:
       master: /etc/salt/master.d
       minion: /etc/salt/minion.d
