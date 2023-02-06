@@ -4,7 +4,7 @@
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 
 {#- crude onedir check #}
-{%- set onedir = grains["pythonexecutable"].startswith("/opt/saltstack") %}
+{%- set onedir = grains["pythonexecutable"].endswith("/run") %}
 
 {%- for lib in salt_.python_libs %}
 {%-   set lib_name = lib if lib is not mapping else lib | first %}
