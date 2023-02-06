@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
 # Pillar "formulae" managed by this formula can be useful to circumvent
 # limitations with git_pillar, as is done for states and the
 # git fileserver backend.
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 
 {%- set pillar_roots = {} %}

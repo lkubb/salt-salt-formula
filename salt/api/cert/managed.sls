@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_package_install = tplroot ~ '.api.package.install' %}
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_package_install = tplroot ~ ".api.package.install" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 
 include:
@@ -30,7 +29,9 @@ Salt API certificate is managed:
     - ca_server: {{ salt_.api.cert.ca_server or "null" }}
     - signing_policy: {{ salt_.api.cert.signing_policy or "null" }}
     - signing_cert: {{ salt_.api.cert.signing_cert or "null" }}
-    - signing_private_key: {{ salt_.api.cert.signing_private_key or (salt_.api.cert.cert_key if not salt_.api.cert.ca_server and not salt_.api.cert.signing_cert else "null") }}
+    - signing_private_key: {{ salt_.api.cert.signing_private_key or
+                              (salt_.api.cert.cert_key if not salt_.api.cert.ca_server and not salt_.api.cert.signing_cert
+                              else "null") }}
     - private_key: {{ salt_.api.cert.cert_key }}
     - days_remaining: {{ salt_.api.cert.days_remaining or "null" }}
     - days_valid: {{ salt_.api.cert.days_valid or "null" }}

@@ -1,5 +1,9 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
+
+{#-
+    Manages the Salt master configuration.
+    Depends on `salt.master.package`_.
+#}
 
 include:
   - .file

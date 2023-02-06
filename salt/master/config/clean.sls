@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_service_clean = tplroot ~ '.master.service.clean' %}
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_service_clean = tplroot ~ ".master.service.clean" %}
 {%- set sls_api_clean = tplroot ~ ".api.cert.clean" %}
 {%- set sls_ssh_clean = tplroot ~ ".ssh.config.clean" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}

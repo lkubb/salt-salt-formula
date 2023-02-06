@@ -1,5 +1,12 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
+
+{#-
+    *Meta-state*.
+
+    Undoes everything performed by states of this formula.
+    Will remove all managed Salt packages, configuration, formulae and pillars.
+    Libs are untouched.
+#}
 
 include:
   - .api.clean

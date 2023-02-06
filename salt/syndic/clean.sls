@@ -1,5 +1,8 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
+
+{#-
+    Disables/stops and removes Salt syndic.
+#}
 
 include:
   - .service.clean

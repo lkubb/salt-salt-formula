@@ -1,8 +1,12 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_service_clean = tplroot ~ '.syndic.service.clean' %}
+{#-
+    Removes Salt syndic.
+    Depends on `salt.syndic.service.clean`_.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_service_clean = tplroot ~ ".syndic.service.clean" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 
 include:

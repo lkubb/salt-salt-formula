@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_package_install = tplroot ~ '.minion.package.install' %}
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_package_install = tplroot ~ ".minion.package.install" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 {%- from tplroot ~ "/formulae/present.sls" import file_roots with context %}
 {%- from tplroot ~ "/pillars/present.sls" import pillar_roots with context %}
@@ -15,8 +14,8 @@ Salt minion configuration is managed:
   file.recurse:
     - name: {{ salt_.lookup.config.minion }}
     {#- This formula uses a patch to be able to use all mapstack sources for tofs config #}
-    - source: {{ files_switch(['minion.d'],
-                              lookup='Salt minion configuration is managed',
+    - source: {{ files_switch(["minion.d"],
+                              lookup="Salt minion configuration is managed",
                               default_dir=salt_ | traverse("tofs:dirs:default")
                  )
               }}

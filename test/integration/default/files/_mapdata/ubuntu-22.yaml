@@ -88,7 +88,6 @@ values:
     - Y:G@osfinger
     - C@salt
     - Y:G@id
-  master: template-master
   tofs:
     files_switch:
     - any/path/can/be/used/here
