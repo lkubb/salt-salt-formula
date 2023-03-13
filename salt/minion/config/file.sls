@@ -16,6 +16,7 @@ Salt minion configuration is managed:
     {#- This formula uses a patch to be able to use all mapstack sources for tofs config #}
     - source: {{ files_switch(["minion.d"],
                               lookup="Salt minion configuration is managed",
+                              default_files_switch=salt_ | traverse("tofs:files_switch", ["id", "os_family"]),
                               default_dir=salt_ | traverse("tofs:dirs:default")
                  )
               }}
