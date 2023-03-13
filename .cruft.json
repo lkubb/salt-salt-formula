@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/lkubb/salt-template-formula",
-  "commit": "dc982e2e128d58584635e1598a0b7153b1428dfc",
+  "commit": "17f22c5b0ea7aebc1182da363ed3dfa6f215f059",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -25,8 +25,98 @@
       "subcomponent": "",
       "subcomponent_config": "",
       "git_username": "lkubb",
-      "_lookup": {},
-      "_settings": {},
+      "lookup": {
+        "config": {
+          "master": "/etc/salt/master.d",
+          "minion": "/etc/salt/minion.d",
+          "ssh": "/etc/salt/roster"
+        },
+        "pip_pkg": "python3-pip",
+        "pkg": {
+          "api": "salt-api",
+          "cloud": "salt-cloud",
+          "master": "salt-master",
+          "minion": "salt-minion",
+          "ssh": "salt-ssh",
+          "syndic": "salt-syndic"
+        },
+        "rootuser": "root",
+        "service": {
+          "api": "salt-api",
+          "master": "salt-master",
+          "minion": "salt-minion",
+          "syndic": "salt-syndic"
+        },
+        "srv": "/srv"
+      },
+      "settings": {
+        "api": {
+          "cert": {
+            "ca_server": null,
+            "cert_path": "/etc/salt/pki/api/netapi.crt",
+            "cert_key": "/etc/salt/pki/api/netapi.key",
+            "cn": null,
+            "days_remaining": 3,
+            "days_valid": 7,
+            "intermediate": [],
+            "root": "",
+            "signing_policy": null,
+            "signing_private_key": null,
+            "signing_cert": null,
+            "signing_private_key_passphrase": null
+          }
+        },
+        "formulae": {
+          "config": {
+            "default": {
+              "baseurl": "https://github.com/saltstack-formulas",
+              "basedir": "formula",
+              "update": true,
+              "args": {
+                "parallel": true
+              }
+            }
+          },
+          "present": {
+            "base": []
+          }
+        },
+        "master": {
+          "config": {},
+          "config_clean": false,
+          "config_remove": false
+        },
+        "minion": {
+          "config": {},
+          "config_clean": false,
+          "config_remove": false
+        },
+        "pillars": {
+          "config": {
+            "default": {
+              "baseurl": null,
+              "basedir": "pillars",
+              "clear_pillar_cache": false,
+              "refresh_pillar": false,
+              "update": true,
+              "args": {
+                "parallel": true
+              }
+            }
+          },
+          "present": {
+            "base": []
+          }
+        },
+        "python_libs": [],
+        "python_libs_absent": [],
+        "pyver": "py39",
+        "repo": "major",
+        "ssh": {
+          "roster": {}
+        },
+        "version": "3005*"
+      },
       "_template": "https://github.com/lkubb/salt-template-formula"
     }
   },
