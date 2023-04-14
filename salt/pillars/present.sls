@@ -65,8 +65,8 @@ Pillar source {{ f_name }} in {{ env }} is present:
 {%-     if opt_refresh %}
 {%-       set opt_refresh = opt_refresh if opt_refresh | is_list else [opt_refresh] %}
 {%-       for refresh_tgt in opt_refresh %}
-{%-         set tgt = refresh_tgt["tgt"] if opt_refresh is mapping else refresh_tgt %}
-{%-         set tgt_type = refresh_tgt["tgt_type"] if opt_refresh is mapping else none %}
+{%-         set tgt = refresh_tgt["tgt"] if refresh_tgt is mapping else refresh_tgt %}
+{%-         set tgt_type = refresh_tgt["tgt_type"] if refresh_tgt is mapping else none %}
 {%-         do refresh_pillar.append({"tgt": tgt, "tgt_type": tgt_type, "name": f_name, "env": env}) %}
 {%-       endfor %}
 {%-     endif %}
@@ -84,7 +84,7 @@ Pillar cache is cleared:
 
 {%- for refresh in refresh_pillar | unique %}
 
-Update in-memory pillar after update to {{ refresh.name }} in {{ refresh.env }}:
+Update in-memory pillar for '{{ refresh.tgt }}' after update to {{ refresh.name }} in {{ refresh.env }}:
   module.run:
     - saltutil.runner:
       - name: salt.execute
