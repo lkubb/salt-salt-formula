@@ -24,8 +24,10 @@ values:
         priority: 10
         gpgcheck: 1
         gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                 {{ grains.osmajorrelease }}/$basearch/latest/SALTSTACK-GPG-KEY\
-                 {{ "2" if grains.osmajorrelease >= 9 }}.pub"
+                 {{ grains.osmajorrelease }}/$basearch/latest/{key_file_name}"
+        key_file:
+          default: SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub
+          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
         enabled_metadata: 1
       major:
         name: saltstack-{major}
@@ -36,8 +38,10 @@ values:
         priority: 10
         gpgcheck: 1
         gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                 {{ grains.osmajorrelease }}/$basearch/{major}/SALTSTACK-GPG-KEY\
-                 {{ "2" if grains.osmajorrelease >= 9 }}.pub"
+                 {{ grains.osmajorrelease }}/$basearch/{major}/{key_file_name}"
+        key_file:
+          default: SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub
+          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
         enabled_metadata: 1
       minor:
         name: saltstack-{major}.{minor}
@@ -48,7 +52,9 @@ values:
         priority: 10
         gpgcheck: 1
         gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/\
-                SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub"
+                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/{key_file_name}"
+        key_file:
+          default: SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub
+          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
         enabled_metadata: 1
 ...

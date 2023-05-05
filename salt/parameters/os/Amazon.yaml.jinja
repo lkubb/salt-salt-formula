@@ -8,20 +8,26 @@ values:
         baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
                   {{ grains.osmajorrelease }}/$basearch/latest"
         gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                 {{ grains.osmajorrelease }}/$basearch/latest/\
-                 SALTSTACK-GPG-KEY.pub"
+                 {{ grains.osmajorrelease }}/$basearch/latest/{key_file_name}"
+        key_file:
+          default: SALTSTACK-GPG-KEY.pub
+          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
       major:
         humanname: SaltStack {major} Release Channel for Amazon Linux
         baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
                   {{ grains.osmajorrelease }}/$basearch/{major}"
         gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                 {{ grains.osmajorrelease }}/$basearch/{major}/\
-                 SALTSTACK-GPG-KEY.pub"
+                 {{ grains.osmajorrelease }}/$basearch/{major}/{key_file_name}"
+        key_file:
+          default: SALTSTACK-GPG-KEY.pub
+          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
       minor:
         humanname: SaltStack {major}.{minor} Release Channel for Amazon Linux
         baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
                   {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}"
         gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/\
-                SALTSTACK-GPG-KEY.pub"
+                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/{key_file_name}"
+        key_file:
+          default: SALTSTACK-GPG-KEY.pub
+          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
 ...

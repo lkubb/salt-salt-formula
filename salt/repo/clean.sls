@@ -16,12 +16,14 @@ include:
 
 {%- else %}
 {%-   set reponame = salt_["repo"] %}
+{%-   set key_file_name = config.get("key_file", {}).get(salt_._major) or config.get("key_file", {}).get("default", "") %}
 
 Salt {{ reponame }} repository is absent:
   pkgrepo.absent:
 {%-   for conf in ["name", "ppa", "ppa_auth", "keyid", "keyid_ppa", "copr"] %}
 {%-     if conf in salt_.lookup.repos[reponame] %}
-    - {{ conf }}: {{ salt_.lookup.repos[reponame][conf] }}
+{%-       set val = salt_.lookup.repos[reponame][conf] %}
+    - {{ conf }}: {{ val if val is not string else val.format(major=salt_._major, minor=salt_._minor, key_file_name=key_file_name) }}
 {%-     endif %}
 {%-   endfor %}
 {%- endif %}
