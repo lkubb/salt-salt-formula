@@ -3,8 +3,8 @@
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 
-{#- crude onedir check #}
-{%- set onedir = grains["pythonexecutable"].endswith("/run") %}
+{#- very crude onedir check – relenv pythonexecutable does not end with `run` #}
+{%- set onedir = grains.pythonexecutable.startswith("/opt/saltstack") %}
 
 {%- for lib in salt_.python_libs %}
 {%-   set lib_name = lib if lib is not mapping else lib | first %}
