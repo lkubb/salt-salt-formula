@@ -79,6 +79,29 @@ The following states are found in this formula:
 This includes `salt.minion`_ only.
 
 
+``salt.minion``
+^^^^^^^^^^^^^^^
+
+
+
+``salt.minion.config``
+^^^^^^^^^^^^^^^^^^^^^^
+Manages the Salt minion configuration.
+Depends on `salt.minion.package`_.
+
+
+``salt.minion.package``
+^^^^^^^^^^^^^^^^^^^^^^^
+Installs the Salt minion package only.
+Depends on `salt.repo`_.
+
+
+``salt.minion.service``
+^^^^^^^^^^^^^^^^^^^^^^^
+Starts/enables the Salt minion service at boot time.
+Depends on `salt.minion.config`_.
+
+
 ``salt.api``
 ^^^^^^^^^^^^
 Installs, configures and starts/enables the Salt API.
@@ -148,29 +171,6 @@ Starts/enables the Salt master service at boot time.
 Depends on `salt.master.config`_.
 
 
-``salt.minion``
-^^^^^^^^^^^^^^^
-
-
-
-``salt.minion.config``
-^^^^^^^^^^^^^^^^^^^^^^
-Manages the Salt minion configuration.
-Depends on `salt.minion.package`_.
-
-
-``salt.minion.package``
-^^^^^^^^^^^^^^^^^^^^^^^
-Installs the Salt minion package only.
-Depends on `salt.repo`_.
-
-
-``salt.minion.service``
-^^^^^^^^^^^^^^^^^^^^^^^
-Starts/enables the Salt minion service at boot time.
-Depends on `salt.minion.config`_.
-
-
 ``salt.pillars``
 ^^^^^^^^^^^^^^^^
 Ensures all configured pillars are present in the
@@ -231,6 +231,27 @@ Will remove all managed Salt packages, configuration, formulae and pillars.
 Libs are untouched.
 
 
+``salt.minion.clean``
+^^^^^^^^^^^^^^^^^^^^^
+Stops/disables the Salt minion service,
+removes minion configuration and the Salt minion package.
+
+
+``salt.minion.config.clean``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+``salt.minion.package.clean``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+``salt.minion.service.clean``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
 ``salt.api.clean``
 ^^^^^^^^^^^^^^^^^^
 Stops/disables the Salt API service,
@@ -279,27 +300,6 @@ removes master configuration and the Salt master package.
 
 
 ``salt.master.service.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-
-``salt.minion.clean``
-^^^^^^^^^^^^^^^^^^^^^
-Stops/disables the Salt minion service,
-removes minion configuration and the Salt minion package.
-
-
-``salt.minion.config.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-
-``salt.minion.package.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-
-``salt.minion.service.clean``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 

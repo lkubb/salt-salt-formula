@@ -3,8 +3,7 @@
       lookup=None,
       default_files_switch=["id", "os_family"],
       indent_width=6,
-      use_subpath=False,
-      default_dir=none
+      use_subpath=False
     ) %}
 {#-
     Returns a valid value for the "source" parameter of a "file.managed"
@@ -86,7 +85,7 @@
 {%-         if fs %}
 {%-           set fs_dirs = salt["config.get"](fs, fs) %}
 {%-         else %}
-{%-           set fs_dirs = default_dir or salt["config.get"](
+{%-           set fs_dirs = salt["config.get"](
                 tplroot ~ ":tofs:dirs:default", "default"
               ) %}
 {%-         endif %}
