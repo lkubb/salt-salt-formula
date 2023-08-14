@@ -17,7 +17,7 @@ Salt API certificate private key is managed:
     - prereq:
       - Salt API certificate is managed
 {%- endif %}
-    - makedirs: True
+    - makedirs: true
     - user: root
     - group: {{ salt_.lookup.rootgroup }}
     - require:
@@ -44,7 +44,7 @@ Salt API certificate is managed:
     - mode: '0600'
     - user: root
     - group: {{ salt_.lookup.rootgroup }}
-    - makedirs: True
+    - makedirs: true
     - append_certs: {{ salt_.api.cert.intermediate | json }}
     - require:
       - sls: {{ sls_package_install }}

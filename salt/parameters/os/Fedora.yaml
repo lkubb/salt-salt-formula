@@ -1,0 +1,24 @@
+# vim: ft=sls
+---
+values:
+  lookup:
+    repos:
+      latest:
+        humanname: SaltStack latest Release Channel for Fedora $releasever
+        baseurl: "https://repo.saltproject.io/salt/py3/fedora/\
+                  {{ grains.osmajorrelease }}/$basearch/latest"
+        gpgkey: "https://repo.saltproject.io/salt/py3/fedora/\
+                 {{ grains.osmajorrelease }}/$basearch/latest/{key_file_name}"
+      major:
+        humanname: SaltStack {major} Release Channel for Fedora $releasever
+        baseurl: "https://repo.saltproject.io/salt/py3/fedora/\
+                  {{ grains.osmajorrelease }}/$basearch/{major}"
+        gpgkey: "https://repo.saltproject.io/salt/py3/fedora/\
+                 {{ grains.osmajorrelease }}/$basearch/{major}/{key_file_name}"
+      minor:
+        humanname: SaltStack {major}.{minor} Release Channel for Fedora $releasever
+        baseurl: "https://repo.saltproject.io/salt/py3/fedora/\
+                  {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}"
+        gpgkey: "https://repo.saltproject.io/salt/py3/fedora/\
+                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/{key_file_name}"  # yamllint disable-line rule:line-length
+...
