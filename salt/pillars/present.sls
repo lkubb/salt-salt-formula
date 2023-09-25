@@ -22,6 +22,10 @@
 {%-     if not f_options["basedir"].startswith("/") %}
 {%-       do f_options.update({"basedir": salt_.lookup.srv | path_join(f_options["basedir"])}) %}
 {%-     endif %}
+{%-     set repo_name = f_options | traverse("args:name", f_options["baseurl"] ~ "/" ~ f_name ~ ".git") %}
+{%-     if pillar.get("pillars_restrict_repos") and repo_name not in pillar["pillars_restrict_repos"] %}
+{%-       continue %}
+{%-     endif %}
 {%-     set target = f_options | traverse("args:target", f_options["basedir"] | path_join(f_name)) %}
 {%-     do pillar_roots[env].append(target) %}
 {%-     set basedir = salt["file.dirname"](target) %}
@@ -46,7 +50,7 @@ Pillar basedir for {{ f_name }} in {{ env }} exists:
 
 Pillar source {{ f_name }} in {{ env }} is present:
   git.{{ "latest" if f_options.get("update", true) else "cloned" }}:
-    - name: {{ f_options | traverse("args:name", f_options["baseurl"] ~ "/" ~ f_name ~ ".git") }}
+    - name: {{ repo_name }}
     - target: {{ target }}
 {%-     for arg, val in f_options.get("args", {}).items() %}
 {%-       if arg in ["name", "target"] %}
