@@ -67,6 +67,7 @@
           }
         },
         "formulae": {
+          "clear_file_list_cache": false,
           "config": {
             "default": {
               "baseurl": "https://github.com/saltstack-formulas",

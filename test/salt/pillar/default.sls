@@ -42,6 +42,7 @@ salt:
       signing_private_key: null
       signing_private_key_passphrase: null
   formulae:
+    clear_file_list_cache: false
     config:
       default:
         args:

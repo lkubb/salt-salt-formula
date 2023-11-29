@@ -47,5 +47,17 @@ Formula {{ f_name }} in {{ env }} is present:
 {%-     endfor %}
     - require:
       - file: {{ basedir }}
+{%-     if salt_.formulae.clear_file_list_cache %}
+    - onchanges_in:
+      - File list cache is cleared on changes
+{%-     endif %}
 {%-   endfor %}
 {%- endfor %}
+
+{%- if salt_.formulae.clear_file_list_cache %}
+
+File list cache is cleared on changes:
+  salt.runner:
+    - name: fileserver.clear_file_list_cache
+    - onchanges: []
+{%- endif %}

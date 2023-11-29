@@ -26,6 +26,12 @@ salt:
     # git server is a Salt minion, for example by making use of reactors.
     # Target this to masters or standalone/masterless minions.
   formulae:
+      # Run `fileserver.clear_file_list_cache` on changes.
+      # Can be useful when `fileserver_list_cache_time` is set to a
+      # high value in order to optimize state.apply runtime.
+      # This requires that the minion applying the state runs on
+      # a master node.
+    clear_file_list_cache: false
       # Settings for cloning repositories, per saltenv.
     config:
         # Default settings for all formulae, regardless of saltenv
