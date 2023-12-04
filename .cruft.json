@@ -116,7 +116,7 @@
         "ssh": {
           "roster": {}
         },
-        "version": "3005*"
+        "version": "3006*"
       },
       "_template": "https://github.com/lkubb/salt-template-formula"
     }

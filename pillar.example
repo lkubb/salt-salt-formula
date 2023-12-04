@@ -140,8 +140,8 @@ salt:
     roster: {}
 
     # Version to install. `latest` will follow the latest releases,
-    # 3005* will install versions in the 3005 channel etc.
-  version: 3005*
+    # 3006* will install versions in the 3006 channel etc.
+  version: 3006*
 
   lookup:
       # This is relevant for MacOS. This formula will pull the package

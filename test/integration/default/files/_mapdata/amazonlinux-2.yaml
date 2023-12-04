@@ -80,7 +80,7 @@ values:
   repo: major
   ssh:
     roster: {}
-  version: 3005*
+  version: 3006*
   map_jinja:
     sources:
     - Y:G@osarch

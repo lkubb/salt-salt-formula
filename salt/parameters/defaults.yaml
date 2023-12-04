@@ -77,7 +77,7 @@ values:
   repo: major
   ssh:
     roster: {}
-  version: 3005*
+  version: 3006*
   tofs:
     files_switch:
       - id

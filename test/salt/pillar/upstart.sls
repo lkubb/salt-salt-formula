@@ -78,7 +78,7 @@ salt:
   repo: major
   ssh:
     roster: {}
-  version: 3005*
+  version: 3006*
 
   tofs:
     # The files_switch key serves as a selector for alternative
