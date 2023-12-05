@@ -3,10 +3,4 @@
 # This file is managed by Salt.
 # Manual changes might be overwritten.
 ---
-{%- for host, confs in salt_.ssh.roster | dictsort %}
-{{- host }}:
-{%-   for conf, val in confs | dictsort %}
-  {{ conf }}: {{ val }}
-{%-   endfor %}
-
-{% endfor %}
+{{ salt_.ssh.roster | yaml(false) }}
