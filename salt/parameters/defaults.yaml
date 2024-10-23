@@ -7,6 +7,7 @@ values:
     rootgroup: root
     enablerepo:
       stable: true
+    bootstrap_repo_file: null
     config:
       master: /etc/salt/master.d
       minion: /etc/salt/minion.d

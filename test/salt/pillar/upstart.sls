@@ -8,6 +8,7 @@ salt:
     added_in_lookup: lookup_value
     enablerepo:
       stable: true
+    bootstrap_repo_file: null
     config:
       master: /etc/salt/master.d
       minion: /etc/salt/minion.d

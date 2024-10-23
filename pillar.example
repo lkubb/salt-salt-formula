@@ -160,6 +160,7 @@ salt:
       # source: https://repo.saltproject.io/osx/salt-{version}-py3-{arch}.pkg
       # source_hash: https://repo.saltproject.io/osx/salt-{version}-py3-{arch}.pkg.sha256
 
+    bootstrap_repo_file: null
     config:
       master: /etc/salt/master.d
       minion: /etc/salt/minion.d

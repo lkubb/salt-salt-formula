@@ -3,6 +3,13 @@
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as salt_ with context %}
 
+{%- if salt_.lookup.bootstrap_repo_file %}
+
+Ensure salt bootstrap repo config is removed:
+  file.absent:
+    - name: {{ salt_.lookup.bootstrap_repo_file }}
+{%- endif %}
+
 {%- for reponame, config in salt_.lookup.repos.items() %}
 {%-   set key_file_name = config.get("key_file", {}).get(salt_._major) or config.get("key_file", {}).get("default", "") %}
 {%-   if reponame == salt_["repo"] %}
