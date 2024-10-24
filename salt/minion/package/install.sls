@@ -10,28 +10,50 @@ include:
 {%- if grains["os"] == "MacOS" %}
 {%-   set repo = {} %}
 {%-   if salt_.lookup.pkg_src.repo_json %}
-{%-     set repo_json = salt["http.query"](salt_.lookup.pkg_src.repo_json, decode=true)["dict"] %}
+{%-     set repo_json = salt["http.query"](salt_.lookup.pkg_src.repo_json, decode=true, decode_type="json")["dict"] %}
 {%-     set version_match = [] %}
 {%-     for version in repo_json %}
-{%-       if salt["match.glob"](salt_.version, version or "latest") %}
+{%-       if salt["match.glob"](salt_.version or "latest", version) %}
 {%-         do version_match.append(version) %}
 {%-       endif %}
 {%-     endfor %}
 {%-     if version_match %}
-{%-       set repodata = repo_json[version_match | sort(reverse=true) | first].values() | first %}
+{%-       set version = version_match | sort(reverse=true) | first %}
+{%-       set repodata = {} %}
+{%-       for spec, data in repo_json[version].items() %}
+{%-         if grains.osarch in spec %}
+{%-           do repodata.update(data) %}
+{%-         endif %}
+{%-       endfor %}
+{%-       if repodata %}
 {#- path_join removes scheme prefix double-slash #}
-{%-       do repo.update({
-            "source": salt["file.dirname"](salt_.lookup.pkg_src.repo_json) ~ "/" ~ repodata["version"] ~ "/" ~ repodata["name"],
-            "source_hash": repodata["SHA3_512"],
-          }) %}
+{%-         do repo.update({
+              "source": salt["file.dirname"](salt_.lookup.pkg_src.repo_json) ~ "/" ~ version ~ "/" ~ repodata["name"],
+              "source_hash": repodata["SHA512"],
+            }) %}
+{%-       endif %}
 {%-     endif %}
 {%-   endif %}
 
 Salt macOS package is present:
   file.managed:
     - name: /tmp/salt.pkg
-    - source: {{ repo.get("source", salt_.lookup.pkg_src.source.format(version=salt_.version, arch="x86_64")) }}
-    - source_hash: {{ repo.get("source_hash", salt_.lookup.pkg_src.source_hash.format(version=salt_.version, arch="x86_64")) }}
+    - source: {{ repo.get("source",
+                    salt_.lookup.pkg_src.source.format(
+                      major=(salt_.version | string).replace("*", "").split(".")[0],
+                      version=salt_.version,
+                      arch=grains.osarch,
+                    )
+                 )
+              }}
+    - source_hash: {{ repo.get("source_hash",
+                    salt_.lookup.pkg_src.source_hash.format(
+                      major=(salt_.version | string).replace("*", "").split(".")[0],
+                      version=salt_.version,
+                      arch=grains.osarch,
+                    )
+                 )
+              }}
     - user: root
     - group: {{ salt_.lookup.rootgroup }}
     - mode: '0600'
