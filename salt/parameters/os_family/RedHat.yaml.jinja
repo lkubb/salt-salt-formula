@@ -16,46 +16,20 @@ values:
     pkg_manager: yum
     bootstrap_repo_file: /etc/yum.repos.d/salt.repo
     repos:
-      latest:
-        name: saltstack
-        humanname: SaltStack latest Release Channel for RHEL/CentOS $releasever
-        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
-                  {{ grains.osmajorrelease }}/$basearch/latest"
+      # Since the repository migration to packages.broadcom.com, the following need
+      # to be rendered with a dynamic `exclude`.
+      official:
+        name: saltstack_official
+        humanname: SaltStack official Release Channel
+        baseurl: https://packages.broadcom.com/artifactory/saltproject-rpm/
         skip_if_unavailable: true
         priority: 10
         gpgcheck: 1
-        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                 {{ grains.osmajorrelease }}/$basearch/latest/{key_file_name}"
-        key_file:
-          default: SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub
-          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
+        gpgkey: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
         enabled_metadata: 1
-      major:
-        name: saltstack-{major}
-        humanname: SaltStack {major} Release Channel for RHEL/CentOS $releasever
-        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
-                  {{ grains.osmajorrelease }}/$basearch/{major}"
-        skip_if_unavailable: true
-        priority: 10
-        gpgcheck: 1
-        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                 {{ grains.osmajorrelease }}/$basearch/{major}/{key_file_name}"
-        key_file:
-          default: SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub
-          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
-        enabled_metadata: 1
-      minor:
-        name: saltstack-{major}.{minor}
-        humanname: SaltStack {major}.{minor} Release Channel for RHEL/CentOS $releasever
-        baseurl: "https://repo.saltproject.io/salt/py3/redhat/\
-                  {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}"
-        skip_if_unavailable: true
-        priority: 10
-        gpgcheck: 1
-        gpgkey: "https://repo.saltproject.io/salt/py3/redhat/\
-                {{ grains.osmajorrelease }}/$basearch/minor/{major}.{minor}/{key_file_name}"
-        key_file:
-          default: SALTSTACK-GPG-KEY{{ "2" if grains.osmajorrelease >= 9 }}.pub
-          '3006': SALT-PROJECT-GPG-PUBKEY-2023.pub
-        enabled_metadata: 1
+    sys_deps:
+      # Required for SELinux modules. Provides semanage/audit2allow.
+      - policycoreutils-python-utils
+      # Required for holding package versions in pkg.installed.
+      - python3-dnf-plugin-versionlock
 ...

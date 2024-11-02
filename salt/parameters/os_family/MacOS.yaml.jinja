@@ -17,9 +17,8 @@ values:
     rootuser: {{ salt["cmd.run"]("stat -f '%Su' /dev/console") }}
     rootgroup: {{ salt["cmd.run"]("stat -f '%Sg' /dev/console") }}
     pkg_src:
-      repo_json: https://repo.saltproject.io/salt/py3/macos/repo.json
-      source: https://repo.saltproject.io/salt/py3/macos/{major}/salt-{version}-py3-{arch}.pkg
-      source_hash: https://repo.saltproject.io/salt/py3/macos/{major}/salt-{version}-py3-{arch}.pkg.SHA512
+      source: https://packages.broadcom.com/artifactory/saltproject-generic/macos/{version}/salt-{version}-py3-{arch}.pkg
+      source_hash: null
     config:
       master: /private/etc/salt/master.d
       minion: /private/etc/salt/minion.d

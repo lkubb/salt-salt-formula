@@ -127,12 +127,11 @@ salt:
 
     # This is currently only relevant for FreeBSD, where the package
     # names are {pyver}-salt-minion etc.
-  pyver: py39
+  pyver: py311
 
-    # Choose which flavor of the official Salt repositories you wish
-    # to enable - `latest`, `major` or `minor`. The latter ones require
-    # at least the same specificity for `version` below.
-  repo: major
+    # Choose which repo to enable. By default, only `official` is available
+    # on RedHat and Debian families. Irrelevant for Windows/macOS.
+  repo: official
 
     # Settings for salt.ssh
   ssh:
@@ -180,6 +179,7 @@ salt:
       minion: salt-minion
       syndic: salt-syndic
     srv: /srv
+    sys_deps: []
 
   tofs:
       # The files_switch key serves as a selector for alternative

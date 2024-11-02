@@ -2,10 +2,13 @@
 
 {%- if mapdata.version and mapdata.version != "latest" %}
   {%- set parts = mapdata.version.strip("*").split(".") %}
-  {%- set major = parts.pop(0) %}
+  {%- set major = parts.pop(0) | int %}
   {%- set minor = none %}
   {%- if parts %}
-    {%- set minor = parts.pop(0) %}
+    {%- set minor = parts.pop(0) | int %}
   {%- endif %}
-  {%- do mapdata.update({"_major": major, "_minor": minor}) %}
+{%- else %}
+{%-   set major = none %}
+{%-   set minor = none %}
 {%- endif %}
+{%- do mapdata.update({"_major": major, "_minor": minor}) %}

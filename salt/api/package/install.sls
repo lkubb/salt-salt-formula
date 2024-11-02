@@ -15,6 +15,7 @@ Salt API is installed:
   pkg.installed:
     - name: {{ salt_.lookup.pkg.api.format(pyver=salt_.pyver) }}
     - version: {{ salt_.version or "null" }}
+    - hold: {{ salt_._minor is not none }}
 {%-   if "repos" in salt_["lookup"] %}
     - require:
       - Salt repo is configured

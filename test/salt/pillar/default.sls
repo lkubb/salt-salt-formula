@@ -28,6 +28,7 @@ salt:
       minion: salt-minion
       syndic: salt-syndic
     srv: /srv
+    sys_deps: []
   api:
     cert:
       ca_server: null
@@ -75,8 +76,8 @@ salt:
       base: []
   python_libs: []
   python_libs_absent: []
-  pyver: py39
-  repo: major
+  pyver: py311
+  repo: official
   ssh:
     roster: {}
   version: 3006*

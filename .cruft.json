@@ -48,7 +48,8 @@
           "minion": "salt-minion",
           "syndic": "salt-syndic"
         },
-        "srv": "/srv"
+        "srv": "/srv",
+        "sys_deps": []
       },
       "settings": {
         "api": {
@@ -112,8 +113,8 @@
         },
         "python_libs": [],
         "python_libs_absent": [],
-        "pyver": "py39",
-        "repo": "major",
+        "pyver": "py311",
+        "repo": "official",
         "ssh": {
           "roster": {}
         },

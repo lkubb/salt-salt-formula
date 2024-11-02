@@ -8,59 +8,43 @@ include:
   - {{ tplroot }}.libs
 
 {%- if grains["os"] == "MacOS" %}
-{%-   set repo = {} %}
-{%-   if salt_.lookup.pkg_src.repo_json %}
-{%-     set repo_json = salt["http.query"](salt_.lookup.pkg_src.repo_json, decode=true, decode_type="json")["dict"] %}
-{%-     set version_match = [] %}
-{%-     for version in repo_json %}
-{%-       if salt["match.glob"](salt_.version or "latest", version) %}
-{%-         do version_match.append(version) %}
-{%-       endif %}
-{%-     endfor %}
-{%-     if version_match %}
-{%-       set version = version_match | sort(reverse=true) | first %}
-{%-       set repodata = {} %}
-{%-       for spec, data in repo_json[version].items() %}
-{%-         if grains.osarch in spec %}
-{%-           do repodata.update(data) %}
-{%-         endif %}
-{%-       endfor %}
-{%-       if repodata %}
-{#- path_join removes scheme prefix double-slash #}
-{%-         do repo.update({
-              "source": salt["file.dirname"](salt_.lookup.pkg_src.repo_json) ~ "/" ~ version ~ "/" ~ repodata["name"],
-              "source_hash": repodata["SHA512"],
-            }) %}
-{%-       endif %}
+{%-   if salt_._major %}
+{%-     if salt_._minor %}
+{%-       set version = "{}.{}".format(salt_._major, salt_._minor) %}
+{#- There are no more official macOS releases after these versions, TODO: provide alternative installation #}
+{%-     elif salt_._major == 3006 %}
+{%-       set version = "3006.9" %}
+{%-     else %}
+{%-       set version = "3007.1" %}
 {%-     endif %}
+{%-   else %}
+{%-     set version = "3007.1" %}
 {%-   endif %}
 
 Salt macOS package is present:
   file.managed:
     - name: /tmp/salt.pkg
-    - source: {{ repo.get("source",
-                    salt_.lookup.pkg_src.source.format(
-                      major=(salt_.version | string).replace("*", "").split(".")[0],
-                      version=salt_.version,
-                      arch=grains.osarch,
-                    )
-                 )
+    - source: {{
+                  salt_.lookup.pkg_src.source.format(
+                    version=version,
+                    arch=grains.osarch,
+                  )
               }}
-    - source_hash: {{ repo.get("source_hash",
-                    salt_.lookup.pkg_src.source_hash.format(
-                      major=(salt_.version | string).replace("*", "").split(".")[0],
-                      version=salt_.version,
-                      arch=grains.osarch,
-                    )
-                 )
+{%-   if salt_.lookup.pkg_src.source_hash %}
+    - source_hash: {{
+                  salt_.lookup.pkg_src.source_hash.format(
+                    version=version,
+                    arch=grains.osarch,
+                  )
               }}
+{%-   else %}
+    - skip_verify: true
+{%-   endif %}
     - user: root
     - group: {{ salt_.lookup.rootgroup }}
     - mode: '0600'
-{%-   if salt_.version != "latest" %}
     - unless:
-      - /opt/salt/bin/salt-minion --version | grep -E '{{ salt_.version | replace(".", "\.") | replace("*", ".*") }}$'
-{%-   endif %}
+      - /opt/salt/salt-minion --version | grep -E '{{ version.replace(".", "\.") if salt_._minor else "{}\.".format(salt_._major) }}.*$'
 
 Salt minion is installed:
   macpackage.installed:
@@ -90,10 +74,20 @@ Disable starting services:
       - Salt minion is installed
 {%-   endif %}
 
+{%- if salt_.lookup.sys_deps %}
+
+Salt system dependencies are installed:
+  pkg.installed:
+    - pkgs: {{ salt_.lookup.sys_deps | json }}
+    - require_in:
+      - Salt minion is installed
+{%- endif %}
+
 Salt minion is installed:
   pkg.installed:
     - name: {{ salt_.lookup.pkg.minion.format(pyver=salt_.pyver) }}
     - version: {{ salt_.version or "null" }}
+    - hold: {{ salt_._minor is not none }}
 {%-   if "repos" in salt_["lookup"] %}
     - require:
       - Salt repo is configured
